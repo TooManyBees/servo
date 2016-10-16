@@ -3,9 +3,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 use dom::bindings::codegen::Bindings::HTMLTimeElementBinding;
+use dom::bindings::codegen::Bindings::HTMLTimeElementBinding::HTMLTimeElementMethods;
+use dom::bindings::inheritance::Castable;
 use dom::bindings::js::Root;
 use dom::bindings::str::DOMString;
 use dom::document::Document;
+use dom::element::Element;
 use dom::htmlelement::HTMLElement;
 use dom::node::Node;
 use string_cache::Atom;
@@ -29,5 +32,13 @@ impl HTMLTimeElement {
         Node::reflect_node(box HTMLTimeElement::new_inherited(local_name, prefix, document),
                            document,
                            HTMLTimeElementBinding::Wrap)
+    }
+}
+
+impl HTMLTimeElementMethods for HTMLTimeElement {
+    make_getter!(DateTime, "datetime");
+
+    fn SetDateTime(&self, value: DOMString) {
+        self.upcast::<Element>().set_string_attribute(&atom!("datetime"), value);
     }
 }
